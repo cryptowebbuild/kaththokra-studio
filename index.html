@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>কাঠঠোকরা স্টুডিও - KathThokra Studio | লাক্সারি সলিড উড ও স্ক্যান্ডিনেভিয়ান ফার্নিচার</title>
+  
+  <!-- Meta & SEO -->
+  <meta name="description" content="KathThokra Studio - তেজগাঁও-গুলশান লিংক রোডস্থ প্রিমিয়াম ডিজাইনার ফার্নিচার ও সলিড উড কালেকশন। ০.৩ সেকেন্ড আল্ট্রা-ফাস্ট ১-ক্লিক অর্ডার ও স্টুডিও বুকিং।">
+  <meta property="og:title" content="KathThokra Studio | Architectural Solid Wood Furniture">
+  <meta property="og:description" content="বার্মাটিক, সেগুন ও হোয়াইট ওক দিয়ে তৈরি প্রিমিয়াম হ্যান্ডক্রাফটেড ফার্নিচার।">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Google Fonts: Cormorant Garamond + Plus Jakarta Sans + Hind Siliguri -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Hind+Siliguri:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if (typeof tailwind !== 'undefined') {
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              teak: {
+                950: '#1A110D',
+                900: '#2B1B17', // Deep Teak Wood
+                800: '#3D2721',
+                700: '#52342C',
+                600: '#754B3E',
+                100: '#F5ECE8',
+                50: '#FAF6F4'
+              },
+              warmWood: {
+                700: '#8B5A2B',
+                600: '#A06834',
+                500: '#B87B3F',
+                400: '#D4A373',
+                200: '#E9D5B8',
+                100: '#F7EFE5'
+              },
+              scandi: {
+                dark: '#1C1D20',
+                cream: '#F4F1EA',
+                sand: '#E8E4DA',
+                accent: '#C88A58'
+              }
+            },
+            fontFamily: {
+              serif: ['"Cormorant Garamond"', 'serif'],
+              sans: ['"Plus Jakarta Sans"', '"Hind Siliguri"', 'sans-serif'],
+              bengali: ['"Hind Siliguri"', 'sans-serif']
+            }
+          }
+        }
+      };
+    }
+  </script>
+
+  <!-- React 18 & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      background-color: #FAF8F5;
+      color: #1A110D;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-serif-luxury {
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #D4A373;
+      border-radius: 4px;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+    .pulse-badge {
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="selection:bg-warmWood-400 selection:text-white">
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+const PRODUCTS = [
+  {
+    id: 1,
+    name: 'স্ক্যান্ডিনেভিয়ান র কটন ও বার্মাটিক লাউঞ্জ চেয়ার',
+    englishName: 'The Nordic Minimalist Burma Teak Lounge Armchair',
+    category: 'chairs',
+    price: 28500,
+    originalPrice: 34000,
+    tag: 'বেস্ট সেলার • তেজগাঁও শোকেস',
+    woodType: '১০০% অরিজিনাল সিজনড বার্মাটিক ও প্রিমিয়াম লিনেন',
+    finish: 'ম্যাট পলিউরেথেন ন্যাচারাল উড ফিনিশ',
+    dimensions: '32"H x 28"W x 30"D',
+    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+    description: 'আধুনিক লিভিংরুম ও স্টাডির আভিজাত্য বাড়াতে আর্কিটেকচারাল মিনিমালিস্ট ডিজাইনে তৈরি হ্যান্ডক্রাফটেড লাউঞ্জ আর্মচেয়ার। দীর্ঘস্থায়ী হাই-ডেনসিটি কুশন সাপোর্টের নিশ্চয়তা।'
+  },
+  {
+    id: 2,
+    name: 'রিগ্যাল সলিড হোয়াইট ওক ৮-সিটার ডাইনিং টেবিল',
+    englishName: 'Architectural Solid White Oak 8-Seater Dining Suite',
+    category: 'tables',
+    price: 78000,
+    originalPrice: 92000,
+    tag: 'মাস্টারপিস • আর্কিটেক্ট চয়েস',
+    woodType: 'আমেরিকান সলিড হোয়াইট ওক (১০০% ট্রিটেড উড)',
+    finish: 'হ্যান্ড-রাবড ড্যানিশ অয়েল ফিনিশ',
+    dimensions: '96"L x 40"W x 30"H',
+    image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=800&q=80',
+    description: 'পরিবারের রাজকীয় ডাইনিং অভিজ্ঞতার জন্য প্রাকৃতিক উড-গ্রেইন টেক্সচার যুক্ত সলিড ওক টেবিল। কোনো প্রকার জয়েন্ট ক্র্যাকিং ছাড়া ৫০ বছরের কাঠ স্থায়িত্ব।'
+  },
+  {
+    id: 3,
+    name: 'মিড-সেঞ্চুরি ন্যাচারাল ক্যানিং ও সেগুন সাইডবোর্ড',
+    englishName: 'Mid-Century Natural Cane Rattan & Teak Credenza',
+    category: 'storage',
+    price: 52000,
+    originalPrice: 60000,
+    tag: 'লিমিটেড এডিশন',
+    woodType: 'চট্টগ্রাম সিজনড সেগুন ও হস্তনির্মিত প্রাকৃতিক বেত (Cane)',
+    finish: 'সাটিন স্মুথ প্রোটেক্টিভ কোট',
+    dimensions: '66"L x 18"D x 32"H',
+    image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80',
+    description: 'ভিন্টেজ বোয়েমিয়ান ও আধুনিক মিনিমালিজমের এক অপূর্ব মেলবন্ধন। ডাইনিং বা লিভিং রুমে কাটলারি ও প্রয়োজনীয় ডেকোর সুবিন্যস্ত রাখার প্রিমিয়াম সমাধান।'
+  },
+  {
+    id: 4,
+    name: 'জাপান্ডি লো-প্রোফাইল সলিড বার্মাটিক প্ল্যাটফর্ম বেড',
+    englishName: 'Japandi Low-Platform Burma Teak King Bedstead',
+    category: 'beds',
+    price: 65000,
+    originalPrice: 75000,
+    tag: 'লাক্সারি কালেকশন',
+    woodType: 'সলিড বার্মাটিক ফ্রেম ও ফ্লোটিং হেডরেস্ট',
+    finish: 'ওয়াটার-রেজিস্ট্যান্ট ন্যাচারাল উড শিল্ড',
+    dimensions: 'King Size (7ft x 6.5ft)',
+    image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80',
+    description: 'জাপানিজ ও স্ক্যান্ডিনেভিয়ান স্লিপ আর্কিটেকচার দ্বারা অনুপ্রাণিত। কোনো আওয়াজ বা ক্রিকিং শব্দ ছাড়া রিল্যাক্সিং গ্রাউন্ডেড স্লিপিং এক্সপেরিয়েন্স।'
+  },
+  {
+    id: 5,
+    name: 'আর্চড মিনিমালিস্ট মডুলার বুকশেলফ ও ডিসপ্লে র্যাক',
+    englishName: 'Solid Hardwood Arched Architectural Display Unit',
+    category: 'storage',
+    price: 34500,
+    originalPrice: 42000,
+    tag: 'ডিজাইনার ফেভারিট',
+    woodType: 'ট্রিটেড মেহগনি ও সলিড উড ব্যাকিং',
+    finish: 'ম্যাট চারকোল টিম্বার ফিনিশ',
+    dimensions: '78"H x 36"W x 14"D',
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
+    description: 'বই, আর্টপিস ও কিউরেটেড ইনডোর প্ল্যান্টস ডিসপ্লে করার জন্য নান্দনিক ইউরোপীয় আর্চ ডিজাইন। যে কোনো দেয়ালকে নিমেষেই গ্যালারির মতো রূপ দেয়।'
+  },
+  {
+    id: 6,
+    name: 'লাইভ-এজ ন্যাচারাল অর্গানিক ওয়ালনাট কফি টেবিল',
+    englishName: 'Live-Edge Organic Walnut Accent Coffee Table',
+    category: 'tables',
+    price: 19500,
+    originalPrice: 24000,
+    tag: 'ইউনিক সিঙ্গল পিস',
+    woodType: 'ন্যাচারাল অর্গানিক ওয়ালনাট স্লাব ও ব্ল্যাক ম্যাট মেটাল লেগস',
+    finish: 'ফুড-সেফ সিডার অয়েল ও মোমের কোটিং',
+    dimensions: '42"L x 24"W x 16"H',
+    image: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=800&q=80',
+    description: 'গাছের মূল কান্ডের প্রাকৃতিক ঢেউ ও রিং অক্ষুণ্ণ রেখে বিশেষভাবে খোদাই করা অনন্য কফি টেবিল। প্রতিটি পিসের শেইপ ও গ্রেইন সম্পূর্ণ অদ্বিতীয়।'
+  }
+];
+
+function App() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [activeProduct, setActiveProduct] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [orderMethod, setOrderMethod] = useState('studio'); // 'studio' or 'delivery'
+  
+  // Checkout Form State
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [specialNote, setSpecialNote] = useState('');
+
+  // Active shoppers indicator
+  const [viewersCount, setViewersCount] = useState(19);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setViewersCount(prev => Math.floor(Math.random() * 8) + 16);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Initialize Lucide icons on render
+  useEffect(() => {
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  });
+
+  const filteredProducts = useMemo(() => {
+    if (selectedCategory === 'all') return PRODUCTS;
+    return PRODUCTS.filter(p => p.category === selectedCategory);
+  }, [selectedCategory]);
+
+  const openOrderModal = (product) => {
+    setActiveProduct(product);
+    setIsDrawerOpen(true);
+  };
+
+  const handleWhatsAppOrder = (e) => {
+    e.preventDefault();
+    if (!customerName || !customerPhone) {
+      alert('অনুগ্রহ করে আপনার নাম ও ফোন নম্বর প্রদান করুন');
+      return;
+    }
+
+    const orderId = 'KT-' + Math.floor(100000 + Math.random() * 900000);
+    const orderTypeBangla = orderMethod === 'studio' ? '🏛️ তেজগাঁও স্টুডিও ভিজিট ও বুকিং' : '🚚 হোম ডেলিভারি ও ইন্সটলেশন';
+
+    const message = 
+      `*🏛️ KathThokra Studio - নতুন ফার্নিচার অর্ডার রসিদ #${orderId}*\n` +
+      `------------------------------------------\n` +
+      `*প্রোডাক্ট:* ${activeProduct.name}\n` +
+      `*কোড:* ${activeProduct.englishName}\n` +
+      `*কাঠের ধরন:* ${activeProduct.woodType}\n` +
+      `*মূল্য:* ৳${activeProduct.price.toLocaleString('en-IN')}\n` +
+      `*অর্ডার টাইপ:* ${orderTypeBangla}\n\n` +
+      `*ক্রেতার তথ্য:*\n` +
+      `👤 *নাম:* ${customerName}\n` +
+      `📞 *মোবাইল:* ${customerPhone}\n` +
+      `📍 *ঠিকানা:* ${customerAddress || 'স্টুডিও ভিজিটে কথা হবে'}\n` +
+      (specialNote ? `📝 *নোট:* ${specialNote}\n` : '') +
+      `------------------------------------------\n` +
+      `*কাস্টমার মেসেজ:* আসসালামু আলাইকুম, আমি কাঠঠোকরা স্টুডিওর ওয়েবসাইট থেকে এই পিসটি কনফার্ম করতে চাই। অনুগ্রহ করে স্লট নিশ্চিত করুন।`;
+
+    const waUrl = `https://wa.me/8801312123012?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-teak-950 font-sans">
+      
+      {/* 1. TOP OFFICIAL DEMO BANNER & CRYPTOWEBBUILD BACKLINK */}
+      <div className="bg-teak-950 text-warmWood-200 text-xs py-2 px-4 border-b border-warmWood-700/30">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+          <div className="flex items-center gap-2">
+            <span className="bg-warmWood-500 text-white font-bold px-2 py-0.5 rounded text-[10px] tracking-wider uppercase">
+              কনসেপ্ট ডেমো স্টোর
+            </span>
+            <span className="text-gray-300">
+              কাঠঠোকরা স্টুডিও (KathThokra Studio)-র জন্য ১০০% কাস্টমাইজযোগ্য হাই-স্পিড ডিজাইন
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-gray-400">লোডিং গতি: <strong className="text-emerald-400">০.৩ সেকেন্ড</strong></span>
+            <span className="text-gray-500">|</span>
+            <a 
+              href="https://cryptowebbuild.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-warmWood-400 hover:text-white font-semibold underline underline-offset-2 transition-colors"
+            >
+              Engineered by CryptoWebBuild ↗
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. MAIN HEADER & BRANDING */}
+      <header className="sticky top-0 z-40 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-warmWood-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          
+          {/* Logo & Tejgaon Address */}
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-teak-900 text-warmWood-400 flex items-center justify-center rounded-sm shadow-md font-serif-luxury text-2xl font-bold tracking-tighter">
+              KT
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-serif-luxury text-2xl sm:text-3xl font-bold tracking-tight text-teak-950">
+                  KathThokra <span className="text-warmWood-600 font-normal italic">Studio</span>
+                </h1>
+                <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-100 text-emerald-800">
+                  ৮০K ফলোয়ার ভেরিফাইড
+                </span>
+              </div>
+              <p className="text-[11px] sm:text-xs text-stone-500 flex items-center gap-1">
+                <i data-lucide="map-pin" className="w-3 h-3 text-warmWood-600"></i>
+                ২০৫/১ তেজগাঁও-গুলশান লিংক রোড, ঢাকা • 01312-123012
+              </p>
+            </div>
+          </div>
+
+          {/* Quick Contact & WhatsApp Action */}
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex flex-col text-right">
+              <span className="text-[11px] text-stone-500 font-medium">সরাসরি পরামর্শ ও ক্যাটালগ</span>
+              <a href="tel:01312123012" className="text-sm font-bold text-teak-900 hover:text-warmWood-600 transition-colors">
+                ০১৩১২-১২৩০১২
+              </a>
+            </div>
+
+            <a 
+              href="https://wa.me/8801312123012" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-sm shadow-sm transition-all"
+            >
+              <i data-lucide="message-circle" className="w-4 h-4"></i>
+              <span className="hidden sm:inline">WhatsApp চ্যাট</span>
+            </a>
+          </div>
+
+        </div>
+      </header>
+
+      {/* 3. HERO SHOWCASE WITH SCANDINAVIAN LUXURY AESTHETIC */}
+      <section className="relative bg-teak-950 text-white overflow-hidden py-14 sm:py-24">
+        {/* Architectural Background Texture */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#D4A373_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-warmWood-700/20 to-transparent pointer-events-none"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-warmWood-400/20 text-warmWood-300 border border-warmWood-400/30 text-xs">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>তেজগাঁও ডিসপ্লে সেন্টারে সরাসরি উড ও ফিনিশ দেখার সুযোগ</span>
+              </div>
+
+              <h2 className="font-serif-luxury text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight text-stone-100">
+                সলিড কাঠের বিশুদ্ধতায় <br/>
+                <span className="text-warmWood-400 italic">স্ক্যান্ডিনেভিয়ান স্থাপত্যের</span> মেলবন্ধন
+              </h2>
+
+              <p className="text-stone-300 text-sm sm:text-base max-w-xl leading-relaxed">
+                কাঠঠোকরা স্টুডিওতে প্রতিটি ফার্নিচার তৈরি হয় সিজনড বার্মাটিক, আমেরিকান ওক ও মেহগনির নিখুঁত হ্যান্ড-ফিনিশিংয়ে। কোনো ফেক প্লাইউড বা ভিনিয়ার নয়—প্রজন্মের পর প্রজন্ম টিকে থাকার মতো খাঁটি আভিজাত্য।
+              </p>
+
+              {/* Quick stats & FOMO */}
+              <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-stone-400 border-t border-stone-800">
+                <div className="flex items-center gap-2">
+                  <i data-lucide="check-circle-2" className="w-4 h-4 text-emerald-400"></i>
+                  <span>৫০ বছর কাঠ স্থায়িত্ব গ্যারান্টি</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <i data-lucide="truck" className="w-4 h-4 text-warmWood-400"></i>
+                  <span>হোম ডেলিভারি ও ফ্রি ইন্সটলেশন</span>
+                </div>
+                <div className="flex items-center gap-2 text-amber-300 font-medium">
+                  <i data-lucide="eye" className="w-4 h-4"></i>
+                  <span>এই মুহূর্তে {viewersCount} জন ব্রাউজ করছেন</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Featured Hero Product Card */}
+            <div className="lg:col-span-5">
+              <div className="relative bg-stone-900/80 rounded-sm p-4 border border-warmWood-700/40 shadow-2xl backdrop-blur-sm">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-sm mb-4">
+                  <img 
+                    src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80" 
+                    alt="KathThokra Signature Living Lounge"
+                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  />
+                  <span className="absolute top-3 left-3 bg-warmWood-500 text-stone-950 font-bold text-[11px] px-2.5 py-1 rounded-sm uppercase tracking-wider">
+                    সিগনেচার আর্কিটেকচারাল লাউঞ্জ
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-baseline">
+                    <h3 className="font-serif-luxury text-xl font-bold text-white">
+                      বার্মাটিক ও ক্যানিং এক্সিকিউটিভ লিভিং সেট
+                    </h3>
+                    <span className="text-warmWood-400 font-bold text-lg">৳১,২০,০০০</span>
+                  </div>
+                  <p className="text-xs text-stone-400">
+                    ৩-সিটার সোফা + ২ লাউঞ্জ চেয়ার + অর্গানিক কফি টেবিল
+                  </p>
+                  <button 
+                    onClick={() => openOrderModal(PRODUCTS[0])}
+                    className="w-full mt-3 bg-warmWood-500 hover:bg-warmWood-600 text-stone-950 font-bold text-xs py-3 rounded-sm transition-all flex items-center justify-center gap-2"
+                  >
+                    <i data-lucide="sparkles" className="w-4 h-4"></i>
+                    <span>১-ক্লিকে স্টুডিও ভিজিট বা অর্ডার করুন</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 4. CATEGORY SELECTOR & FILTER TABS */}
+      <section className="bg-white border-b border-warmWood-200 sticky top-20 z-30 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
+            
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => setSelectedCategory('all')}
+                className={`px-4 py-2 rounded-sm text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedCategory === 'all' 
+                    ? 'bg-teak-900 text-warmWood-200 shadow-sm' 
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                }`}
+              >
+                সব মাস্টারপিস ({PRODUCTS.length})
+              </button>
+
+              <button 
+                onClick={() => setSelectedCategory('chairs')}
+                className={`px-4 py-2 rounded-sm text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedCategory === 'chairs' 
+                    ? 'bg-teak-900 text-warmWood-200 shadow-sm' 
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                }`}
+              >
+                লাউঞ্জ ও অ্যাকসেন্ট চেয়ার
+              </button>
+
+              <button 
+                onClick={() => setSelectedCategory('tables')}
+                className={`px-4 py-2 rounded-sm text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedCategory === 'tables' 
+                    ? 'bg-teak-900 text-warmWood-200 shadow-sm' 
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                }`}
+              >
+                ডাইনিং ও কফি টেবিল
+              </button>
+
+              <button 
+                onClick={() => setSelectedCategory('storage')}
+                className={`px-4 py-2 rounded-sm text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedCategory === 'storage' 
+                    ? 'bg-teak-900 text-warmWood-200 shadow-sm' 
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                }`}
+              >
+                সাইডবোর্ড ও বুকশেলফ
+              </button>
+
+              <button 
+                onClick={() => setSelectedCategory('beds')}
+                className={`px-4 py-2 rounded-sm text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedCategory === 'beds' 
+                    ? 'bg-teak-900 text-warmWood-200 shadow-sm' 
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                }`}
+              >
+                প্ল্যাটফর্ম বেডস্টেড
+              </button>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-2 text-xs text-stone-500 whitespace-nowrap">
+              <i data-lucide="shield-check" className="w-4 h-4 text-warmWood-600"></i>
+              <span>১০০% ট্রিটেড ও সিজনড কাঠ</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 5. MAIN PRODUCT CATALOG GRID */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1">
+        
+        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+          <span className="text-xs uppercase tracking-widest text-warmWood-600 font-bold">
+            CURATED ARCHITECTURAL PORTFOLIO
+          </span>
+          <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-teak-950">
+            কাঠের প্রাকৃতিক সৌন্দর্য ও জীবন্ত শিল্পকর্ম
+          </h2>
+          <p className="text-stone-600 text-xs sm:text-sm">
+            প্রতিটি ডিজাইনের পেছনে রয়েছে স্থপতি ও দক্ষ কারিগরদের শত ঘণ্টার সুক্ষ্ম হাতের কাজ
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map(product => (
+            <div 
+              key={product.id}
+              className="bg-white rounded-sm border border-stone-200 hover:border-warmWood-400/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group overflow-hidden"
+            >
+              {/* Product Image Frame */}
+              <div className="relative aspect-[4/3] bg-stone-100 overflow-hidden">
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-teak-900/90 backdrop-blur-sm text-warmWood-200 text-[10px] font-bold px-2.5 py-1 rounded-sm">
+                  {product.tag}
+                </span>
+                <span className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-stone-700 text-[10px] font-medium px-2 py-0.5 rounded-sm">
+                  {product.dimensions}
+                </span>
+              </div>
+
+              {/* Product Info Body */}
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  <h3 className="font-serif-luxury text-xl font-bold text-teak-950 group-hover:text-warmWood-700 transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-[11px] text-stone-400 italic mb-2">
+                    {product.englishName}
+                  </p>
+
+                  <div className="space-y-1.5 text-xs text-stone-600 bg-stone-50 p-3 rounded-sm border border-stone-100">
+                    <p className="flex items-center gap-1.5">
+                      <i data-lucide="tree-deciduous" className="w-3.5 h-3.5 text-warmWood-600"></i>
+                      <span><strong>উপাদান:</strong> {product.woodType}</span>
+                    </p>
+                    <p className="flex items-center gap-1.5">
+                      <i data-lucide="sparkles" className="w-3.5 h-3.5 text-warmWood-600"></i>
+                      <span><strong>ফিনিশ:</strong> {product.finish}</span>
+                    </p>
+                  </div>
+
+                  <p className="mt-3 text-xs text-stone-500 line-clamp-2 leading-relaxed">
+                    {product.description}
+                  </p>
+                </div>
+
+                {/* Price & 1-Click Action */}
+                <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs text-stone-400 line-through mr-1.5">
+                      ৳{product.originalPrice.toLocaleString('en-IN')}
+                    </span>
+                    <span className="text-xl font-bold text-teak-900">
+                      ৳{product.price.toLocaleString('en-IN')}
+                    </span>
+                  </div>
+
+                  <button 
+                    onClick={() => openOrderModal(product)}
+                    className="inline-flex items-center gap-1.5 bg-warmWood-500 hover:bg-warmWood-600 text-stone-950 font-bold text-xs px-3.5 py-2.5 rounded-sm shadow-sm transition-all"
+                  >
+                    <i data-lucide="shopping-bag" className="w-3.5 h-3.5"></i>
+                    <span>১-ক্লিকে অর্ডার</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </main>
+
+      {/* 6. INSTANT 1-CLICK ORDER & STUDIO BOOKING DRAWER */}
+      {isDrawerOpen && activeProduct && (
+        <div className="fixed inset-0 z-50 overflow-hidden">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsDrawerOpen(false)}
+          ></div>
+
+          <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div className="w-screen max-w-md bg-[#FAF8F5] text-teak-950 shadow-2xl flex flex-col border-l border-warmWood-300">
+              
+              {/* Drawer Header */}
+              <div className="p-5 bg-teak-950 text-white flex items-center justify-between border-b border-warmWood-800">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded bg-warmWood-500 text-stone-950 flex items-center justify-center font-bold">
+                    <i data-lucide="check" className="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 className="font-serif-luxury text-lg font-bold">১-ক্লিক বুকিং ও অর্ডার কনফার্ম</h3>
+                    <p className="text-[10px] text-warmWood-300">KathThokra Studio • ০.৩ সেকেন্ডে সরাসরি WhatsApp-এ</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="p-1 rounded-sm text-stone-400 hover:text-white transition-colors"
+                >
+                  <i data-lucide="x" className="w-6 h-6"></i>
+                </button>
+              </div>
+
+              {/* Drawer Scrollable Content */}
+              <div className="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-6">
+                
+                {/* Selected Product Summary */}
+                <div className="bg-white p-4 rounded-sm border border-stone-200 flex gap-4">
+                  <img 
+                    src={activeProduct.image} 
+                    alt={activeProduct.name}
+                    className="w-20 h-20 object-cover rounded-sm border border-stone-200"
+                  />
+                  <div className="flex-1">
+                    <h4 className="font-serif-luxury font-bold text-base leading-snug">
+                      {activeProduct.name}
+                    </h4>
+                    <p className="text-[11px] text-stone-500">{activeProduct.dimensions}</p>
+                    <p className="text-sm font-bold text-warmWood-700 mt-1">
+                      ৳{activeProduct.price.toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Booking Mode Selector */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-stone-700">বুকিং ধরণ নির্বাচন করুন:</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setOrderMethod('studio')}
+                      className={`p-3 rounded-sm border text-xs font-semibold text-left transition-all ${
+                        orderMethod === 'studio'
+                          ? 'border-warmWood-600 bg-warmWood-50 text-warmWood-900 ring-1 ring-warmWood-500'
+                          : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1.5 font-bold">
+                        <i data-lucide="store" className="w-3.5 h-3.5 text-warmWood-600"></i>
+                        <span>স্টুডিও ভিজিট</span>
+                      </div>
+                      <p className="text-[10px] text-stone-500 mt-1">তেজগাঁও লিংক রোড শোকেসে সশরীরে কাঠের কোয়ালিটি যাচাই</p>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setOrderMethod('delivery')}
+                      className={`p-3 rounded-sm border text-xs font-semibold text-left transition-all ${
+                        orderMethod === 'delivery'
+                          ? 'border-warmWood-600 bg-warmWood-50 text-warmWood-900 ring-1 ring-warmWood-500'
+                          : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1.5 font-bold">
+                        <i data-lucide="truck" className="w-3.5 h-3.5 text-warmWood-600"></i>
+                        <span>হোম ডেলিভারি</span>
+                      </div>
+                      <p className="text-[10px] text-stone-500 mt-1">প্রটেক্টিভ প্যাকিং সহ নিরাপদ ডেলিভারি ও ফিটিং</p>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Customer Input Fields */}
+                <form onSubmit={handleWhatsAppOrder} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      আপনার নাম <span className="text-red-500">*</span>
+                    </label>
+                    <input 
+                      type="text"
+                      required
+                      placeholder="উদা: আরিয়ান চৌধুরী"
+                      value={customerName}
+                      onChange={e => setCustomerName(e.target.value)}
+                      className="w-full text-xs p-3 rounded-sm border border-stone-300 focus:outline-none focus:border-warmWood-600 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      মোবাইল নম্বর (WhatsApp) <span className="text-red-500">*</span>
+                    </label>
+                    <input 
+                      type="tel"
+                      required
+                      placeholder="01XXXXXXXXX"
+                      value={customerPhone}
+                      onChange={e => setCustomerPhone(e.target.value)}
+                      className="w-full text-xs p-3 rounded-sm border border-stone-300 focus:outline-none focus:border-warmWood-600 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      ডেলিভারি ঠিকানা বা এলাকা
+                    </label>
+                    <input 
+                      type="text"
+                      placeholder="বাড়ি নম্বর, রোড, গুলশান / ধানমন্ডি / বনানী, ঢাকা"
+                      value={customerAddress}
+                      onChange={e => setCustomerAddress(e.target.value)}
+                      className="w-full text-xs p-3 rounded-sm border border-stone-300 focus:outline-none focus:border-warmWood-600 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      কাস্টমাইজেশন বা বিশেষ নির্দেশনা (ঐচ্ছিক)
+                    </label>
+                    <textarea 
+                      rows="2"
+                      placeholder="উদা: সেগুনের পলিশ আরও লাইট শেড চাচ্ছি..."
+                      value={specialNote}
+                      onChange={e => setSpecialNote(e.target.value)}
+                      className="w-full text-xs p-3 rounded-sm border border-stone-300 focus:outline-none focus:border-warmWood-600 bg-white"
+                    ></textarea>
+                  </div>
+
+                  {/* Submission Button */}
+                  <button 
+                    type="submit"
+                    className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm py-3.5 px-4 rounded-sm shadow-md transition-all flex items-center justify-center gap-2"
+                  >
+                    <i data-lucide="message-circle" className="w-5 h-5"></i>
+                    <span>সরাসরি WhatsApp-এ অর্ডার ও স্লট বুক করুন</span>
+                  </button>
+
+                  <p className="text-[11px] text-stone-500 text-center">
+                    🔒 কোনো অগ্রিম পেমেন্ট ছাড়া সরাসরি কাঠঠোকরা স্টুডিওর অফিসিয়াল WhatsApp (01312-123012)-এ অর্ডার পৌঁছাবে।
+                  </p>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 7. FOOTER WITH CRYPTOWEBBUILD BACKLINK */}
+      <footer className="bg-teak-950 text-stone-400 text-xs border-t border-stone-800 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            
+            <div className="space-y-3">
+              <div className="font-serif-luxury text-2xl font-bold text-stone-100">
+                KathThokra <span className="text-warmWood-400 italic">Studio</span>
+              </div>
+              <p className="text-stone-400 text-xs leading-relaxed">
+                তেজগাঁও-গুলশান লিংক রোডস্থ প্রিমিয়াম ডিজাইনার ফার্নিচার ও সলিড উড কালেকশন। ৮০,০০০+ মানুষের বিশ্বস্ত আসবাব ঠিকানা।
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="text-stone-200 font-bold uppercase tracking-wider text-[11px]">শোকেস ও স্টুডিও</h4>
+              <p className="text-stone-400 text-xs">
+                ২০৫/১ তেজগাঁও গুলশান লিংক রোড, ঢাকা<br/>
+                খোলা থাকে: প্রতিদিন সকাল ১০:০০ - রাত ৮:৩০
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="text-stone-200 font-bold uppercase tracking-wider text-[11px]">জরুরি যোগাযোগ</h4>
+              <p className="text-stone-400 text-xs">
+                WhatsApp: <strong>01312-123012</strong><br/>
+                ইমেইল: kaththokra.studio@gmail.com
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="text-stone-200 font-bold uppercase tracking-wider text-[11px]">প্রযুক্তি ও গতি</h4>
+              <p className="text-stone-400 text-xs">
+                ওয়ার্ডপ্রেসের স্লো স্পিড ও বাগ মুক্ত ০.৩ সেকেন্ড আল্ট্রা-লাইটওয়েট ই-কমার্স ইঞ্জিন।
+              </p>
+            </div>
+
+          </div>
+
+          <div className="pt-6 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p className="text-stone-500">
+              © {new Date().getFullYear()} KathThokra Studio. কনসেপ্ট ডেমো পোর্টাল।
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-stone-500">ডিজাইন ও ডেভেলপমেন্ট:</span>
+              <a 
+                href="https://cryptowebbuild.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-warmWood-400 hover:text-white font-semibold underline underline-offset-4 transition-colors"
+              >
+                CryptoWebBuild (High-Converting DTC Systems)
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+
+      {/* Floating Instant WhatsApp Button */}
+      <a 
+        href="https://wa.me/8801312123012"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white p-3.5 rounded-full shadow-2xl flex items-center gap-2 transition-transform hover:scale-110"
+        title="WhatsApp-এ সরাসরি কথা বলুন"
+      >
+        <i data-lucide="message-circle" className="w-6 h-6"></i>
+        <span className="max-w-0 overflow-hidden whitespace-nowrap hover:max-w-xs transition-all duration-300 text-xs font-bold pl-0 hover:pl-2">
+          সরাসরি চ্যাট
+        </span>
+      </a>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>
